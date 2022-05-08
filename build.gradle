@@ -1,0 +1,26 @@
+plugins {
+    id 'org.jetbrains.intellij' version '1.5.3'
+    id 'org.jetbrains.kotlin.jvm' version '1.6.21'
+}
+
+group 'co.anbora.labs'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation "com.github.alexdlaird:java-ngrok:1.5.6"
+}
+
+// See https://github.com/JetBrains/gradle-intellij-plugin/
+intellij {
+    version = '2021.3.3'
+}
+patchPluginXml {
+    changeNotes = """
+      Add change notes here.<br>
+      <em>most HTML tags may be used</em>"""
+}
