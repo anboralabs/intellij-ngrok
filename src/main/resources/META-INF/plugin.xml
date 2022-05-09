@@ -1,19 +1,15 @@
 <idea-plugin>
     <id>co.anbora.labs.ngrok</id>
-    <name>Plugin display name here</name>
-    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
-
-    <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
-    ]]></description>
+    <name>Ngrok</name>
+    <vendor email="anboralabs@gmail.com" url="https://labs.anbora.co">Anbora-labs</vendor>
 
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
          on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <applicationService serviceImplementation="co.anbora.labs.ngrok.settings.NgrokSettings"/>
+        <statusBarWidgetFactory id="ngrokWidget" implementation="co.anbora.labs.ngrok.ui.NgrokStatusBarWidgetFactory" order="before inspectionProfileWidget" />
     </extensions>
 
     <actions>
