@@ -10,7 +10,7 @@ object Icons {
     )
 
     val Title = IconLoader.findIcon(
-        "/images/title.png",
+        "/images/www.png",
         Icons::class.java
     )
 }

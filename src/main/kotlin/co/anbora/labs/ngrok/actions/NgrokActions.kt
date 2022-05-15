@@ -1,5 +1,6 @@
 package co.anbora.labs.ngrok.actions
 
+import co.anbora.labs.ngrok.service.NgrokService
 import co.anbora.labs.ngrok.settings.NgrokSettings
 import co.anbora.labs.ngrok.ui.Icons
 import com.intellij.dvcs.ui.CustomIconProvider
@@ -12,21 +13,23 @@ import javax.swing.Icon
 
 class NgrokActions(
     project: Project,
-    val settings: NgrokSettings = service()
+    val settings: NgrokSettings = service(),
+    val ngrokService: NgrokService = service()
 ): ActionGroup(), DumbAware, CustomIconProvider, AlwaysVisibleActionGroup {
 
     override fun getRightIcon(): Icon? = Icons.Title
 
     override fun getChildren(e: AnActionEvent?): Array<AnAction> {
         return listOf(
-            Separator("Running..."),
             Separator("Create on:"),
             *defaultPorts().toTypedArray()
         ).toTypedArray()
     }
 
     private fun defaultPorts(): List<DumbAwareAction> {
-        return listOf(StartTunnelAction(), StopTunnelAction())
+        return settings.ports.map {
+            StartTunnelAction(it, ngrokService)
+        }.toList()
     }
 
 }
