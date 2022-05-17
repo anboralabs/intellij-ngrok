@@ -1,7 +1,6 @@
 package co.anbora.labs.ngrok.remote.server.deployment
 
 import co.anbora.labs.ngrok.remote.server.NgrokHostConfiguration
-import com.intellij.openapi.components.service
 import com.intellij.openapi.options.SettingsEditor
 import com.intellij.openapi.project.Project
 import com.intellij.remoteServer.configuration.RemoteServer
@@ -24,7 +23,7 @@ class NgrokDeploymentConfigurator(
     override fun createEditor(
         source: DeploymentSource,
         server: RemoteServer<NgrokHostConfiguration>?
-    ): SettingsEditor<NgrokDeploymentConfiguration> = NgrokDeploymentEditor(service())
+    ): SettingsEditor<NgrokDeploymentConfiguration> = NgrokDeploymentEditor()
 
     override fun suggestConfigurationName(
         deploymentSource: DeploymentSource,

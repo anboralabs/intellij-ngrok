@@ -3,28 +3,44 @@ package co.anbora.labs.ngrok.runtimes
 import co.anbora.labs.ngrok.model.NgrokService
 import co.anbora.labs.ngrok.model.NgrokTunnelService
 import co.anbora.labs.ngrok.model.toModel
-import co.anbora.labs.ngrok.remote.server.deployment.NgrokDeploymentConfiguration
+import co.anbora.labs.ngrok.remote.server.NgrokServerRuntimeInstance
 import com.github.alexdlaird.exception.NgrokException
 import com.github.alexdlaird.ngrok.NgrokClient
 import com.github.alexdlaird.ngrok.conf.JavaNgrokConfig
-import com.intellij.remoteServer.runtime.deployment.DeploymentTask
+import com.intellij.openapi.diagnostic.logger
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
 class NgrokApplicationRuntime(applicationName: String) : NgrokBaseRuntime(applicationName) {
 
+    private val log = logger<NgrokApplicationRuntime>()
     private val serviceRuntimes: MutableMap<String, NgrokServiceRuntime<NgrokService>> = mutableMapOf()
 
     private var ngrokClient: NgrokClient? = null
     private val configBuilder = JavaNgrokConfig.Builder()
 
-    fun run(deploymentTask: DeploymentTask<NgrokDeploymentConfiguration>) {
+    fun run(apiToken: String) {
 
         ngrokClient = NgrokClient.Builder()
-            .withJavaNgrokConfig(configBuilder.withAuthToken(deploymentTask.configuration.apiKey).build())
+            .withJavaNgrokConfig(configBuilder.withAuthToken(apiToken).build())
             .build()
     }
 
     fun isAlive(): Boolean = ngrokClient?.ngrokProcess?.isRunning ?: false
+
+    fun waitForReadiness() = runBlocking {
+        try {
+            for (i in 1..20) {
+                if (isAlive()) {
+                    break
+                } else {
+                    delay(500)
+                }
+            }
+        } catch (ex: Exception) {
+            log.error(ex.message)
+        }
+    }
 
     fun refresh(): List<NgrokBaseRuntime> {
         val tunnels = getTunnels()

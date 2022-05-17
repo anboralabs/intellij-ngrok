@@ -12,12 +12,17 @@ import javax.swing.JPanel
 
 class NgrokHostComponent {
     private val panel: JPanel
-    private lateinit var tyeHostField: Cell<ComboBox<String>>
+    private lateinit var hostField: Cell<ComboBox<String>>
+    private lateinit var apiTokenField: Cell<JBTextField>
 
     init {
         panel = panel {
             row("Ngrok host:") {
-                tyeHostField = comboBox(ngrokHosts())
+                hostField = comboBox(ngrokHosts())
+                    .columns(COLUMNS_MEDIUM)
+            }
+            row("API Token:") {
+                apiTokenField = textField()
                     .columns(COLUMNS_MEDIUM)
             }
         }
@@ -27,5 +32,11 @@ class NgrokHostComponent {
 
     private fun ngrokHosts(): ComboBoxModel<String> {
         return CollectionComboBoxModel(listOf("Embedded"))
+    }
+
+    fun getApiToken(): String = apiTokenField.component.text
+
+    fun setApiToken(token: String) {
+        apiTokenField.component.text = token
     }
 }

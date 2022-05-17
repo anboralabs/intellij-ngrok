@@ -11,8 +11,16 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.1"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.6.21"
     implementation "com.github.alexdlaird:java-ngrok:1.5.6"
+}
+
+configurations {
+    all {
+        // Allows using project dependencies instead of IDE dependencies during compilation and test running
+        resolutionStrategy.sortArtifacts(ResolutionStrategy.SortOrder.DEPENDENCY_FIRST)
+    }
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/

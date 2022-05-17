@@ -3,7 +3,6 @@ package co.anbora.labs.ngrok.remote.server
 import co.anbora.labs.ngrok.icons.NgrokIcons
 import co.anbora.labs.ngrok.remote.server.deployment.NgrokDeploymentConfigurator
 import co.anbora.labs.ngrok.remote.server.deployment.NgrokSingletonDeploymentSourceType
-import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.remoteServer.RemoteServerConfigurable
 import com.intellij.remoteServer.ServerType
@@ -33,7 +32,7 @@ class NgrokHostType: ServerType<NgrokHostConfiguration>("ngrok") {
 
     override fun createServerConfigurable(
         configuration: NgrokHostConfiguration
-    ): RemoteServerConfigurable = NgrokHostConfigurable()
+    ): RemoteServerConfigurable = NgrokHostConfigurable(configuration)
 
     override fun createDeploymentConfigurator(
         project: Project

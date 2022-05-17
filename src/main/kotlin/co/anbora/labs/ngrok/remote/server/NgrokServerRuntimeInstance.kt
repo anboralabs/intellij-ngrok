@@ -30,8 +30,10 @@ class NgrokServerRuntimeInstance(
         callback: DeploymentOperationCallback
     ) {
         taskExecutor.submit({
-            ngrokApplicationManager.runApplication(configuration.apiKey, task).let {
+            ngrokApplicationManager.runApplication(configuration.apiKey).let {
                 callback.started(it)
+
+                it.waitForReadiness()
                 callback.succeeded(it)
             }
         }, callback)

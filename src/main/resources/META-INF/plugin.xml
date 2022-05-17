@@ -11,6 +11,8 @@
         <applicationService serviceImplementation="co.anbora.labs.ngrok.settings.NgrokSettings"/>
         <applicationService serviceImplementation="co.anbora.labs.ngrok.service.NgrokService"/>
 
+        <applicationService serviceImplementation="co.anbora.labs.ngrok.service.NgrokApplicationManager"/>
+
         <remoteServer.type implementation="co.anbora.labs.ngrok.remote.server.NgrokHostType"/>
         <serviceViewContributor implementation="co.anbora.labs.ngrok.remote.server.NgrokServiceViewContributor"/>
         <remoteServer.deploymentSource.type implementation="co.anbora.labs.ngrok.remote.server.deployment.NgrokSingletonDeploymentSourceType"/>
