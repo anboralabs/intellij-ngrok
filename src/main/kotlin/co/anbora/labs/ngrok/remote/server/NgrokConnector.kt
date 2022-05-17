@@ -11,6 +11,11 @@ class NgrokConnector(
     override fun connect(
         callback: ConnectionCallback<NgrokDeploymentConfiguration>
     ) {
-        TODO("Not yet implemented")
+        taskExecutor.submit( {
+            NgrokServerRuntimeInstance(
+                configuration,
+                taskExecutor
+            ).connect(callback)
+        }, callback)
     }
 }

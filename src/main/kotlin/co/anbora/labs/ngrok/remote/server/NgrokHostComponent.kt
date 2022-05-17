@@ -25,12 +25,6 @@ class NgrokHostComponent {
 
     fun getPanel(): JPanel = panel
 
-    /*fun getHostAddress(): String = tyeHostField.component.text
-
-    fun setHostAddress(host: String) {
-        tyeHostField.component.text = host
-    }*/
-
     private fun ngrokHosts(): ComboBoxModel<String> {
         return CollectionComboBoxModel(listOf("Embedded"))
     }

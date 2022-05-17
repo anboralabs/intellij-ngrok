@@ -1,12 +1,11 @@
 package co.anbora.labs.ngrok.service
 
-import co.anbora.labs.ngrok.remote.server.NgrokHostConfiguration
 import com.github.alexdlaird.ngrok.NgrokClient
 import com.github.alexdlaird.ngrok.protocol.CreateTunnel
 import com.github.alexdlaird.ngrok.protocol.Proto
 import com.github.alexdlaird.ngrok.protocol.Tunnel
+import com.github.alexdlaird.ngrok.protocol.Version
 import com.intellij.openapi.Disposable
-import com.intellij.remoteServer.util.CloudConfigurationBase
 
 class NgrokService: Disposable {
 
@@ -22,6 +21,8 @@ class NgrokService: Disposable {
                 .build()
         )
     }
+
+    fun version(): Version = ngrokClient.version
 
     override fun dispose() {
         ngrokClient.kill()

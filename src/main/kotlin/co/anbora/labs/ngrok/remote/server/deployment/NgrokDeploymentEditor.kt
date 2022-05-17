@@ -21,7 +21,7 @@ class NgrokDeploymentEditor(
     }
 
     override fun createFragments(): MutableCollection<SettingsEditorFragment<NgrokDeploymentConfiguration, *>> {
-        val builder = FragmentsBuilder<NgrokDeploymentConfiguration>(null, "tye", emptyList())
+        val builder = FragmentsBuilder<NgrokDeploymentConfiguration>(null, "ngrok", emptyList())
         builder.fragment("ngrok.configuration.api", apiTokenField) { this.setupApiTokenField() }
 
         return builder.build()

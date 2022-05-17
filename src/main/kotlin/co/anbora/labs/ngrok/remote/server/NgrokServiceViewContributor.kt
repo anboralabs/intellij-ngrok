@@ -59,7 +59,9 @@ class NgrokServiceViewContributor: RemoteServersServiceViewContributor(), Servic
 
     override fun selectLog(deploymentNode: AbstractTreeNode<*>, logName: String) = Unit
 
-    override fun getActionGroups(): ActionGroups {
-        TODO("Not yet implemented")
-    }
+    override fun getActionGroups(): ActionGroups = ActionGroups(
+        "Ngrok.RemoteServers.Main",
+        "Ngrok.RemoteServers.Secondary",
+        "Ngrok.RemoteServers.Toolbar"
+    )
 }

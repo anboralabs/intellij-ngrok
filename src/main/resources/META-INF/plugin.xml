@@ -17,6 +17,37 @@
     </extensions>
 
     <actions>
-        <!-- Add your actions here -->
+        <group id="Ngrok.RemoteServers.Main">
+            <reference ref="RemoteServers.ConnectServer"/>
+            <reference ref="RemoteServers.DisconnectServer"/>
+            <reference ref="RemoteServers.EditServerConfig"/>
+            <!--<action id="Tye.RemoteServers.OpenTyeWebDashboard"
+                    class="com.github.rafaelldi.tyeplugin.actions.OpenTyeWebDashboardAction"
+                    text="Web Dashboard"
+                    description="Open web dashboard"
+                    icon="AllIcons.General.Web"/>
+            <action id="Tye.RemoteServers.TyeApplicationShutdown"
+                    class="com.github.rafaelldi.tyeplugin.actions.TyeApplicationShutdownAction"
+                    text="Shutdown"
+                    description="Tye application shutdown"
+                    icon="AllIcons.Nodes.Undeploy"/>
+            <separator/>
+            <action id="Tye.RemoteServers.TyeBuild"
+                    class="com.github.rafaelldi.tyeplugin.actions.TyeBuildAction"
+                    text="Tye Build"
+                    description="Run tye build command"
+                    icon="AllIcons.Actions.Compile"/>
+            <action id="Tye.RemoteServers.TyePush"
+                    class="com.github.rafaelldi.tyeplugin.actions.TyePushAction"
+                    text="Tye Push"
+                    description="Run tye push command"
+                    icon="AllIcons.Vcs.Push"/>-->
+        </group>
+        <group id="Ngrok.RemoteServers.Secondary"/>
+        <group id="Ngrok.RemoteServers.Toolbar"/>
+
+        <action id="Ngrok.Services.AddTyeHost" class="co.anbora.labs.ngrok.actions.AddNgrokHostAction">
+            <add-to-group group-id="ServiceView.AddService"/>
+        </action>
     </actions>
 </idea-plugin>
