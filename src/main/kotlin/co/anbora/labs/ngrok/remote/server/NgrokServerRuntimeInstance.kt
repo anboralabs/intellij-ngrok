@@ -55,11 +55,11 @@ class NgrokServerRuntimeInstance(
     }
 
     override fun getDeploymentName(source: DeploymentSource, configuration: NgrokDeploymentConfiguration): String =
-        "Ngrok"
+        "Ngrok Application"
 
     override fun getRuntimeDeploymentName(
         deploymentRuntime: DeploymentRuntime,
         source: DeploymentSource,
         configuration: NgrokDeploymentConfiguration
-    ): String = "Ngrok"
+    ): String = "Ngrok Application"
 }

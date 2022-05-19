@@ -2,6 +2,7 @@ package co.anbora.labs.ngrok.runtimes
 
 import co.anbora.labs.ngrok.model.NgrokService
 import co.anbora.labs.ngrok.model.NgrokTunnelService
+import co.anbora.labs.ngrok.model.start
 import co.anbora.labs.ngrok.model.toModel
 import com.github.alexdlaird.exception.NgrokException
 import com.github.alexdlaird.ngrok.NgrokClient
@@ -25,6 +26,7 @@ class NgrokApplicationRuntime(applicationName: String) : NgrokBaseRuntime(applic
         ngrokClient = NgrokClient.Builder()
             .withJavaNgrokConfig(configBuilder.withAuthToken(apiToken).build())
             .build()
+            .start()
     }
 
     fun addTunnel() {
