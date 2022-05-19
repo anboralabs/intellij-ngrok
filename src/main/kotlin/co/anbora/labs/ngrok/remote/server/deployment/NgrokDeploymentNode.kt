@@ -2,6 +2,9 @@ package co.anbora.labs.ngrok.remote.server.deployment
 
 import co.anbora.labs.ngrok.icons.NgrokIcons
 import co.anbora.labs.ngrok.remote.server.components.NgrokDeploymentNodeComponent
+import co.anbora.labs.ngrok.runtimes.NgrokApplicationRuntime
+import co.anbora.labs.ngrok.runtimes.NgrokTunnelRuntime
+import com.intellij.icons.AllIcons
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.ide.util.treeView.AbstractTreeNode
 import com.intellij.openapi.project.Project
@@ -31,7 +34,8 @@ class NgrokDeploymentNode(
         super.update(presentation)
 
         when (deployment.runtime) {
-
+            is NgrokApplicationRuntime -> presentation.setIcon(NgrokIcons.NGROK)
+            is NgrokTunnelRuntime -> presentation.setIcon(AllIcons.General.Web)
             else -> presentation.setIcon(NgrokIcons.NGROK)
         }
     }

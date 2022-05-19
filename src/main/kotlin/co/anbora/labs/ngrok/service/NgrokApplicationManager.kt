@@ -2,10 +2,11 @@ package co.anbora.labs.ngrok.service
 
 import co.anbora.labs.ngrok.runtimes.NgrokApplicationRuntime
 import co.anbora.labs.ngrok.runtimes.NgrokBaseRuntime
+import com.intellij.openapi.Disposable
 import com.intellij.openapi.components.Service
 import java.util.concurrent.ConcurrentHashMap
 
-class NgrokApplicationManager {
+class NgrokApplicationManager: Disposable {
 
     private val applications: ConcurrentHashMap<String, NgrokApplicationRuntime> = ConcurrentHashMap()
 
@@ -30,5 +31,11 @@ class NgrokApplicationManager {
         }
 
         return applicationRuntime.refresh()
+    }
+
+    override fun dispose() {
+        applications.forEach { (_, application) ->
+            application.shutdown()
+        }
     }
 }

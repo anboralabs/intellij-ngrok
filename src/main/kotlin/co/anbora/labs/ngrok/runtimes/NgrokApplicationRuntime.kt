@@ -3,10 +3,11 @@ package co.anbora.labs.ngrok.runtimes
 import co.anbora.labs.ngrok.model.NgrokService
 import co.anbora.labs.ngrok.model.NgrokTunnelService
 import co.anbora.labs.ngrok.model.toModel
-import co.anbora.labs.ngrok.remote.server.NgrokServerRuntimeInstance
 import com.github.alexdlaird.exception.NgrokException
 import com.github.alexdlaird.ngrok.NgrokClient
 import com.github.alexdlaird.ngrok.conf.JavaNgrokConfig
+import com.github.alexdlaird.ngrok.protocol.CreateTunnel
+import com.github.alexdlaird.ngrok.protocol.Proto
 import com.intellij.openapi.diagnostic.logger
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -24,6 +25,27 @@ class NgrokApplicationRuntime(applicationName: String) : NgrokBaseRuntime(applic
         ngrokClient = NgrokClient.Builder()
             .withJavaNgrokConfig(configBuilder.withAuthToken(apiToken).build())
             .build()
+    }
+
+    fun addTunnel() {
+        ngrokClient?.connect(
+            CreateTunnel.Builder()
+                .withProto(Proto.HTTP)
+                .withAddr(3000)
+                .build()
+        )
+    }
+
+    fun properties(): MutableMap<String, String?> {
+        return mutableMapOf(
+            "Version" to ngrokClient?.version?.ngrokVersion,
+            "Path" to ngrokClient?.javaNgrokConfig?.ngrokPath?.toString(),
+            "Token" to ngrokClient?.javaNgrokConfig?.authToken
+        )
+    }
+
+    fun shutdown() {
+        ngrokClient?.kill()
     }
 
     fun isAlive(): Boolean = ngrokClient?.ngrokProcess?.isRunning ?: false

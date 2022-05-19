@@ -8,9 +8,6 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="co.anbora.labs.ngrok.settings.NgrokSettings"/>
-        <applicationService serviceImplementation="co.anbora.labs.ngrok.service.NgrokService"/>
-
         <applicationService serviceImplementation="co.anbora.labs.ngrok.service.NgrokApplicationManager"/>
 
         <remoteServer.type implementation="co.anbora.labs.ngrok.remote.server.NgrokHostType"/>
@@ -23,27 +20,11 @@
             <reference ref="RemoteServers.ConnectServer"/>
             <reference ref="RemoteServers.DisconnectServer"/>
             <reference ref="RemoteServers.EditServerConfig"/>
-            <!--<action id="Tye.RemoteServers.OpenTyeWebDashboard"
-                    class="com.github.rafaelldi.tyeplugin.actions.OpenTyeWebDashboardAction"
-                    text="Web Dashboard"
-                    description="Open web dashboard"
+            <action id="Ngrok.RemoteServers.AddTunnel"
+                    class="co.anbora.labs.ngrok.actions.AddTunnel"
+                    text="Add Tunnel"
+                    description="Create ngrok tunnel"
                     icon="AllIcons.General.Web"/>
-            <action id="Tye.RemoteServers.TyeApplicationShutdown"
-                    class="com.github.rafaelldi.tyeplugin.actions.TyeApplicationShutdownAction"
-                    text="Shutdown"
-                    description="Tye application shutdown"
-                    icon="AllIcons.Nodes.Undeploy"/>
-            <separator/>
-            <action id="Tye.RemoteServers.TyeBuild"
-                    class="com.github.rafaelldi.tyeplugin.actions.TyeBuildAction"
-                    text="Tye Build"
-                    description="Run tye build command"
-                    icon="AllIcons.Actions.Compile"/>
-            <action id="Tye.RemoteServers.TyePush"
-                    class="com.github.rafaelldi.tyeplugin.actions.TyePushAction"
-                    text="Tye Push"
-                    description="Run tye push command"
-                    icon="AllIcons.Vcs.Push"/>-->
         </group>
         <group id="Ngrok.RemoteServers.Secondary"/>
         <group id="Ngrok.RemoteServers.Toolbar"/>

@@ -25,7 +25,6 @@ class NgrokServiceViewContributor: RemoteServersServiceViewContributor(), Servic
 
     private val componentProviders: MutableMap<Project, NgrokDeploymentNodeComponentProvider> = mutableMapOf()
 
-
     override fun getViewDescriptor(project: Project): ServiceViewDescriptor = serviceViewDescriptor
 
     override fun createDeploymentNode(

@@ -7,4 +7,6 @@ sealed class NgrokService(
 ) {
 
     abstract fun getName(): String
+
+    abstract fun properties(): MutableMap<String, String?>
 }

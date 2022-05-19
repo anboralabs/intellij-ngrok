@@ -14,9 +14,10 @@ import com.intellij.remoteServer.runtime.deployment.ServerRuntimeInstance
 
 class NgrokServerRuntimeInstance(
     private val configuration: NgrokHostConfiguration,
-    private val taskExecutor: ServerTaskExecutor
+    private val taskExecutor: ServerTaskExecutor,
+    private val ngrokApplicationManager: NgrokApplicationManager
 ): ServerRuntimeInstance<NgrokDeploymentConfiguration>() {
-    private var ngrokApplicationManager: NgrokApplicationManager = service()
+
     private val log = logger<NgrokServerRuntimeInstance>()
 
     fun connect(callback: ServerConnector.ConnectionCallback<NgrokDeploymentConfiguration>) {

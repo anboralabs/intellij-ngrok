@@ -1,7 +1,11 @@
 package co.anbora.labs.ngrok.remote.server.deployment
 
+import co.anbora.labs.ngrok.remote.server.components.ApplicationDeploymentNodeComponent
 import co.anbora.labs.ngrok.remote.server.components.EmptyDeploymentNodeComponent
 import co.anbora.labs.ngrok.remote.server.components.NgrokDeploymentNodeComponent
+import co.anbora.labs.ngrok.remote.server.components.TunnelDeploymentNodeComponent
+import co.anbora.labs.ngrok.runtimes.NgrokApplicationRuntime
+import co.anbora.labs.ngrok.runtimes.NgrokTunnelRuntime
 import com.intellij.openapi.project.Project
 import com.intellij.remoteServer.runtime.ConnectionStatus
 import com.intellij.remoteServer.runtime.Deployment
@@ -36,6 +40,8 @@ class NgrokDeploymentNodeComponentProvider(
 
     private fun createComponent(deployment: Deployment): NgrokDeploymentNodeComponent {
         return when (val runtime = deployment.runtime) {
+            is NgrokApplicationRuntime -> ApplicationDeploymentNodeComponent(project, runtime)
+            is NgrokTunnelRuntime -> TunnelDeploymentNodeComponent(runtime)
             else -> EmptyDeploymentNodeComponent()
         }
     }

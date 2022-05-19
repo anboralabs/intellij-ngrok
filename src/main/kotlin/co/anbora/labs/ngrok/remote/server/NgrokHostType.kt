@@ -3,6 +3,8 @@ package co.anbora.labs.ngrok.remote.server
 import co.anbora.labs.ngrok.icons.NgrokIcons
 import co.anbora.labs.ngrok.remote.server.deployment.NgrokDeploymentConfigurator
 import co.anbora.labs.ngrok.remote.server.deployment.NgrokSingletonDeploymentSourceType
+import co.anbora.labs.ngrok.service.NgrokApplicationManager
+import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.remoteServer.RemoteServerConfigurable
 import com.intellij.remoteServer.ServerType
@@ -13,6 +15,8 @@ import com.intellij.remoteServer.runtime.ServerTaskExecutor
 import javax.swing.Icon
 
 class NgrokHostType: ServerType<NgrokHostConfiguration>("ngrok") {
+
+    private var ngrokApplicationManager: NgrokApplicationManager = service()
 
     companion object {
         fun getInstance(): NgrokHostType {
@@ -41,7 +45,7 @@ class NgrokHostType: ServerType<NgrokHostConfiguration>("ngrok") {
     override fun createConnector(
         configuration: NgrokHostConfiguration,
         asyncTasksExecutor: ServerTaskExecutor
-    ): ServerConnector<*> = NgrokConnector(configuration, asyncTasksExecutor)
+    ): ServerConnector<*> = NgrokConnector(configuration, asyncTasksExecutor, ngrokApplicationManager)
 
     override fun getCustomToolWindowId(): String = "Services"
 
