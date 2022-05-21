@@ -25,6 +25,16 @@
                     text="Add Tunnel"
                     description="Create ngrok tunnel"
                     icon="AllIcons.General.Web"/>
+            <action id="Ngrok.RemoteServers.StopTunnel"
+                    class="co.anbora.labs.ngrok.actions.StopTunnel"
+                    text="Stop Tunnel"
+                    description="Stop ngrok tunnel"
+                    icon="AllIcons.Actions.Suspend"/>
+            <action id="Ngrok.RemoteServers.KillNgrok"
+                    class="co.anbora.labs.ngrok.actions.KillNgrok"
+                    text="Shutdown Ngrok"
+                    description="Shutdown ngrok process"
+                    icon="AllIcons.Debugger.KillProcess"/>
         </group>
         <group id="Ngrok.RemoteServers.Secondary"/>
         <group id="Ngrok.RemoteServers.Toolbar"/>

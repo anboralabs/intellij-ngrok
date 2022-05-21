@@ -29,13 +29,17 @@ class NgrokApplicationRuntime(applicationName: String) : NgrokBaseRuntime(applic
             .start()
     }
 
-    fun addTunnel() {
+    fun addTunnel(proto: Proto, port: Int) {
         ngrokClient?.connect(
             CreateTunnel.Builder()
-                .withProto(Proto.HTTP)
-                .withAddr(3000)
+                .withProto(proto)
+                .withAddr(port)
                 .build()
         )
+    }
+
+    fun disconnectTunnel(publicUrl: String) {
+        ngrokClient?.disconnect(publicUrl)
     }
 
     fun properties(): MutableMap<String, String?> {
