@@ -5,10 +5,5 @@ import com.intellij.execution.ui.SettingsEditorFragment
 import com.intellij.execution.ui.utils.FragmentsBuilder
 
 class NgrokDeploymentEditor: FragmentedSettingsEditor<NgrokDeploymentConfiguration>(null) {
-
-    override fun createFragments(): MutableCollection<SettingsEditorFragment<NgrokDeploymentConfiguration, *>> {
-        return FragmentsBuilder<NgrokDeploymentConfiguration>(null, "ngrok", emptyList())
-            .build()
-    }
-
+    override fun createFragments(): MutableCollection<SettingsEditorFragment<NgrokDeploymentConfiguration, *>> = mutableListOf()
 }

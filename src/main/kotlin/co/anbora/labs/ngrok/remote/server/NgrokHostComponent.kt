@@ -1,12 +1,12 @@
 package co.anbora.labs.ngrok.remote.server
 
+import co.anbora.labs.ngrok.ui.builder.COLUMNS_MEDIUM
+import co.anbora.labs.ngrok.ui.builder.Cell
+import co.anbora.labs.ngrok.ui.builder.columns
+import co.anbora.labs.ngrok.ui.panel
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.ui.CollectionComboBoxModel
 import com.intellij.ui.components.JBTextField
-import com.intellij.ui.dsl.builder.COLUMNS_MEDIUM
-import com.intellij.ui.dsl.builder.Cell
-import com.intellij.ui.dsl.builder.columns
-import com.intellij.ui.dsl.builder.panel
 import javax.swing.ComboBoxModel
 import javax.swing.JPanel
 

@@ -1,5 +1,10 @@
 package co.anbora.labs.ngrok.dialog
 
+import co.anbora.labs.ngrok.ui.builder.COLUMNS_MEDIUM
+import co.anbora.labs.ngrok.ui.builder.Cell
+import co.anbora.labs.ngrok.ui.builder.columns
+import co.anbora.labs.ngrok.ui.builder.text
+import co.anbora.labs.ngrok.ui.panel
 import com.github.alexdlaird.ngrok.protocol.Proto
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogWrapper
@@ -7,7 +12,6 @@ import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.ui.CollectionComboBoxModel
 import com.intellij.ui.components.JBTextField
-import com.intellij.ui.dsl.builder.*
 import com.intellij.ui.layout.ValidationInfoBuilder
 import javax.swing.ComboBoxModel
 import javax.swing.JComponent
