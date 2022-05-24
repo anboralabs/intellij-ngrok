@@ -1,7 +1,6 @@
 package co.anbora.labs.ngrok.ui.builder
 
-import com.intellij.ui.dsl.builder.MutableProperty
-import com.intellij.ui.dsl.builder.impl.MutablePropertyImpl
+import co.anbora.labs.ngrok.ui.builder.impl.MutablePropertyImpl
 
 interface MutableProperty<T> {
 

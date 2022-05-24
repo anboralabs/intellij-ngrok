@@ -18,7 +18,6 @@ fun panel(init: Panel.() -> Unit): DialogPanel {
     val dialogPanelConfig = DialogPanelConfig()
     val panel = PanelImpl(dialogPanelConfig, IntelliJSpacingConfiguration(), null)
     panel.init()
-    dialogPanelConfig.context.postInit()
 
     val layout = GridLayout()
     val result = DialogPanel(layout = layout)

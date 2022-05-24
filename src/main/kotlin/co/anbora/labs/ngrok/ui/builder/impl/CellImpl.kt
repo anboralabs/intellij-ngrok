@@ -9,7 +9,6 @@ import com.intellij.openapi.diagnostic.logger
 import com.intellij.openapi.observable.properties.ObservableProperty
 import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.openapi.ui.validation.*
-import com.intellij.openapi.util.NlsContexts
 import com.intellij.ui.components.Label
 import com.intellij.ui.layout.ComponentPredicate
 import com.intellij.ui.layout.ValidationInfoBuilder
@@ -116,11 +115,6 @@ class CellImpl<T : JComponent>(
 
     override fun bold(): CellImpl<T> {
         component.font = component.font.deriveFont(Font.BOLD)
-        return this
-    }
-
-    override fun comment(@NlsContexts.DetailedDescription comment: String?, maxLineLength: Int, action: HyperlinkEventAction): CellImpl<T> {
-        this.comment = if (comment == null) null else createComment(comment, maxLineLength, action)
         return this
     }
 

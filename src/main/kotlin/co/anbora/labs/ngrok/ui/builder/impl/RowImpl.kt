@@ -1,32 +1,28 @@
 package co.anbora.labs.ngrok.ui.builder.impl
 
-import co.anbora.labs.ngrok.ui.UiDslException
 import co.anbora.labs.ngrok.ui.builder.*
+import co.anbora.labs.ngrok.ui.builder.components.DslLabel
+import co.anbora.labs.ngrok.ui.builder.components.DslLabelType
+import co.anbora.labs.ngrok.ui.gridLayout.Gaps
+import co.anbora.labs.ngrok.ui.gridLayout.VerticalGaps
 import com.intellij.BundleBase
-import com.intellij.openapi.actionSystem.*
+import com.intellij.openapi.actionSystem.ActionGroup
+import com.intellij.openapi.actionSystem.ActionToolbar
+import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.ex.ActionUtil
 import com.intellij.openapi.actionSystem.impl.ActionButton
-import com.intellij.openapi.fileChooser.FileChooserDescriptor
-import com.intellij.openapi.observable.properties.GraphProperty
 import com.intellij.openapi.project.DumbAware
-import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.ComboBox
-import com.intellij.openapi.ui.TextFieldWithBrowseButton
-import com.intellij.openapi.ui.panel.ComponentPanelBuilder
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.openapi.ui.popup.util.PopupUtil
 import com.intellij.openapi.util.NlsContexts
-import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.ContextHelpLabel
 import com.intellij.ui.JBIntSpinner
 import com.intellij.ui.SimpleListCellRenderer
 import com.intellij.ui.UIBundle
 import com.intellij.ui.components.*
 import com.intellij.ui.components.fields.ExpandableTextField
-import com.intellij.ui.dsl.builder.SegmentedButton
-import com.intellij.ui.dsl.builder.components.*
-import com.intellij.ui.dsl.builder.components.SegmentedButtonAction
-import com.intellij.ui.dsl.builder.impl.*
 import com.intellij.ui.layout.ComponentPredicate
 import com.intellij.ui.popup.PopupState
 import com.intellij.util.Function
@@ -87,16 +83,6 @@ open class RowImpl(
         return this
     }
 
-    override fun rowComment(@NlsContexts.DetailedDescription comment: String, maxLineLength: Int): Row {
-        this.rowComment = ComponentPanelBuilder.createCommentComponent(comment, true, maxLineLength, true)
-        return this
-    }
-
-    override fun rowComment(@NlsContexts.DetailedDescription comment: String, maxLineLength: Int, action: HyperlinkEventAction): RowImpl {
-        this.rowComment = createComment(comment, maxLineLength, action)
-        return this
-    }
-
     override fun <T : JComponent> cell(component: T, viewComponent: JComponent): CellImpl<T> {
         val result = CellImpl(dialogPanelConfig, component, this, viewComponent)
         cells.add(result)
@@ -117,12 +103,6 @@ open class RowImpl(
 
     fun cell(cell: CellBaseImpl<*>) {
         cells.add(cell)
-    }
-
-    override fun placeholder(): PlaceholderImpl {
-        val result = PlaceholderImpl(this)
-        cells.add(result)
-        return result
     }
 
     override fun enabled(isEnabled: Boolean): RowImpl {
@@ -192,18 +172,6 @@ open class RowImpl(
         return cell(JBCheckBox(text))
     }
 
-    override fun radioButton(@NlsContexts.RadioButton text: String): Cell<JBRadioButton> {
-        return radioButton(text, null)
-    }
-
-    override fun radioButton(text: String, value: Any?): Cell<JBRadioButton> {
-        val buttonsGroup = dialogPanelConfig.context.getButtonsGroup() ?: throw UiDslException(
-            "Button group must be defined before using radio button")
-        val result = cell(JBRadioButton(text))
-        buttonsGroup.add(result, value)
-        return result
-    }
-
     override fun button(@NlsContexts.Button text: String, actionListener: (event: ActionEvent) -> Unit): CellImpl<JButton> {
         val button = JButton(BundleBase.replaceMnemonicAmpersand(text))
         button.addActionListener(actionListener)
@@ -229,28 +197,6 @@ open class RowImpl(
         return cell(ActionButton(actionGroup, actionGroup.templatePresentation.clone(), actionPlace, ActionToolbar.DEFAULT_MINIMUM_BUTTON_SIZE))
     }
 
-    override fun <T> segmentedButton(options: Collection<T>, property: GraphProperty<T>, renderer: (T) -> String): Cell<SegmentedButtonToolbar> {
-        val actionGroup = DefaultActionGroup(options.map { SegmentedButtonAction(it, property, renderer(it)) })
-        val toolbar = SegmentedButtonToolbar(actionGroup, parent.spacingConfiguration)
-        toolbar.targetComponent = null // any data context is supported, suppress warning
-        return cell(toolbar)
-    }
-
-    override fun <T> segmentedButton(items: Collection<T>, renderer: (T) -> String): SegmentedButton<T> {
-        val result = SegmentedButtonImpl(this, renderer)
-        result.items(items)
-        cells.add(result)
-        return result
-    }
-
-    override fun tabbedPaneHeader(items: Collection<String>): Cell<JBTabbedPane> {
-        val tabbedPaneHeader = TabbedPaneHeader()
-        for (item in items) {
-            tabbedPaneHeader.add(item, JPanel())
-        }
-        return cell(tabbedPaneHeader)
-    }
-
     override fun slider(min: Int, max: Int, minorTickSpacing: Int, majorTickSpacing: Int): Cell<JSlider> {
         val slider = JSlider()
         UIUtil.setSliderIsFilled(slider, true)
@@ -268,32 +214,12 @@ open class RowImpl(
         return cell(Label(text))
     }
 
-    override fun labelHtml(@NlsContexts.Label text: String, action: HyperlinkEventAction): Cell<JEditorPane> {
-        return text(removeHtml(text), MAX_LINE_LENGTH_WORD_WRAP, action)
-    }
-
     override fun text(@NlsContexts.Label text: String, maxLineLength: Int, action: HyperlinkEventAction): Cell<JEditorPane> {
         val dslLabel = DslLabel(DslLabelType.LABEL)
         dslLabel.action = action
         dslLabel.maxLineLength = maxLineLength
         dslLabel.text = text
         return cell(dslLabel)
-    }
-
-    override fun comment(@NlsContexts.DetailedDescription text: String, maxLineLength: Int): Cell<JLabel> {
-        return cell(ComponentPanelBuilder.createCommentComponent(text, true, maxLineLength, true))
-    }
-
-    override fun comment(comment: String, maxLineLength: Int, action: HyperlinkEventAction): CellImpl<JEditorPane> {
-        return cell(createComment(comment, maxLineLength, action))
-    }
-
-    override fun commentNoWrap(text: String): Cell<JLabel> {
-        return cell(ComponentPanelBuilder.createNonWrappingCommentComponent(text))
-    }
-
-    override fun commentHtml(text: String, action: HyperlinkEventAction): Cell<JEditorPane> {
-        return comment(text, MAX_LINE_LENGTH_WORD_WRAP, action)
     }
 
     override fun link(text: String, action: (ActionEvent) -> Unit): CellImpl<ActionLink> {
@@ -320,15 +246,6 @@ open class RowImpl(
 
     override fun textField(): CellImpl<JBTextField> {
         val result = cell(JBTextField())
-        result.columns(COLUMNS_SHORT)
-        return result
-    }
-
-    override fun textFieldWithBrowseButton(browseDialogTitle: String?,
-                                           project: Project?,
-                                           fileChooserDescriptor: FileChooserDescriptor,
-                                           fileChosen: ((chosenFile: VirtualFile) -> String)?): Cell<TextFieldWithBrowseButton> {
-        val result = cell(textFieldWithBrowseButton(project, browseDialogTitle, fileChooserDescriptor, fileChosen))
         result.columns(COLUMNS_SHORT)
         return result
     }
@@ -406,12 +323,6 @@ open class RowImpl(
 
     override fun <T> comboBox(items: Collection<T>, renderer: ListCellRenderer<in T?>?): Cell<ComboBox<T>> {
         val component = ComboBox(DefaultComboBoxModel(Vector(items)))
-        component.renderer = renderer ?: SimpleListCellRenderer.create("") { it.toString() }
-        return cell(component)
-    }
-
-    override fun <T> comboBox(items: Array<T>, renderer: ListCellRenderer<T?>?): Cell<ComboBox<T>> {
-        val component = ComboBox(items)
         component.renderer = renderer ?: SimpleListCellRenderer.create("") { it.toString() }
         return cell(component)
     }

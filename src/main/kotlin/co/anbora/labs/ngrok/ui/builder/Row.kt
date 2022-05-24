@@ -1,6 +1,8 @@
 package co.anbora.labs.ngrok.ui.builder
 
 import co.anbora.labs.ngrok.ui.LayoutDslMarker
+import co.anbora.labs.ngrok.ui.builder.impl.MAX_LINE_LENGTH_WORD_WRAP
+import co.anbora.labs.ngrok.ui.gridLayout.VerticalGaps
 import com.intellij.icons.AllIcons
 import com.intellij.ide.TooltipTitle
 import com.intellij.openapi.actionSystem.ActionPlaces
@@ -8,7 +10,6 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.impl.ActionButton
 import com.intellij.openapi.fileChooser.FileChooserDescriptor
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
-import com.intellij.openapi.observable.properties.GraphProperty
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.TextFieldWithBrowseButton
@@ -17,9 +18,6 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.JBIntSpinner
 import com.intellij.ui.components.*
 import com.intellij.ui.components.fields.ExpandableTextField
-import com.intellij.ui.dsl.builder.components.SegmentedButtonToolbar
-import com.intellij.ui.dsl.gridLayout.Grid
-import com.intellij.ui.dsl.gridLayout.VerticalGaps
 import com.intellij.ui.layout.ComponentPredicate
 import com.intellij.util.Function
 import com.intellij.util.execution.ParametersListUtil
@@ -47,28 +45,6 @@ interface Row {
      */
     fun resizableRow(): Row
 
-    @Deprecated("Use overloaded rowComment(...) instead", level = DeprecationLevel.HIDDEN)
-    @ApiStatus.ScheduledForRemoval
-    fun rowComment(@NlsContexts.DetailedDescription comment: String,
-                   maxLineLength: Int = DEFAULT_COMMENT_WIDTH
-    ): Row
-
-    /**
-     * Adds comment after the row with appropriate color and font size (macOS and Linux use smaller font).
-     * [comment] can contain HTML tags except &lt;html&gt;, which is added automatically.
-     * \n does not work as new line in html, use &lt;br&gt; instead.
-     * Links with href to http/https are automatically marked with additional arrow icon.
-     * Visibility and enabled state of the row affects row comment as well.
-     *
-     * @see MAX_LINE_LENGTH_WORD_WRAP
-     * @see MAX_LINE_LENGTH_NO_WRAP
-     */
-    fun rowComment(@NlsContexts.DetailedDescription comment: String,
-                   maxLineLength: Int = DEFAULT_COMMENT_WIDTH,
-                   action: HyperlinkEventAction = HyperlinkEventAction.HTML_HYPERLINK_INSTANCE): Row
-
-    @Deprecated("Use cell(component: T) and scrollCell(component: T) instead")
-    @ApiStatus.ScheduledForRemoval
     fun <T : JComponent> cell(component: T, viewComponent: JComponent = component): Cell<T>
 
     /**
@@ -86,11 +62,6 @@ interface Row {
      * Adds [component] wrapped by [JBScrollPane]
      */
     fun <T : JComponent> scrollCell(component: T): Cell<T>
-
-    /**
-     * Adds a reserved cell in layout which can be populated by content later
-     */
-    fun placeholder(): Placeholder
 
     /**
      * Sets visibility of the row including comment [Row.rowComment] and all children recursively.
@@ -133,17 +104,6 @@ interface Row {
 
     fun checkBox(@NlsContexts.Checkbox text: String): Cell<JBCheckBox>
 
-    @Deprecated("Use overloaded radioButton(...) instead", level = DeprecationLevel.HIDDEN)
-    @ApiStatus.ScheduledForRemoval
-    fun radioButton(@NlsContexts.RadioButton text: String): Cell<JBRadioButton>
-
-    /**
-     * Adds radio button. [Panel.buttonsGroup] must be defined above hierarchy before adding radio buttons.
-     * If there is a binding [ButtonsGroup.bind] for the buttons group then [value] must be provided with correspondent to binding type,
-     * or null otherwise
-     */
-    fun radioButton(@NlsContexts.RadioButton text: String, value: Any? = null): Cell<JBRadioButton>
-
     fun button(@NlsContexts.Button text: String, actionListener: (event: ActionEvent) -> Unit): Cell<JButton>
 
     fun button(@NlsContexts.Button text: String, action: AnAction, @NonNls actionPlace: String = ActionPlaces.UNKNOWN): Cell<JButton>
@@ -157,25 +117,6 @@ interface Row {
                       @NonNls actionPlace: String = ActionPlaces.UNKNOWN,
                       icon: Icon = AllIcons.General.GearPlain): Cell<ActionButton>
 
-    @Deprecated("Use overloaded method")
-    @ApiStatus.ScheduledForRemoval
-    fun <T> segmentedButton(options: Collection<T>, property: GraphProperty<T>, renderer: (T) -> String): Cell<SegmentedButtonToolbar>
-
-    /**
-     * @see [SegmentedButton]
-     */
-    @ApiStatus.Experimental
-    fun <T> segmentedButton(items: Collection<T>, renderer: (T) -> String): SegmentedButton<T>
-
-    /**
-     * Creates JBTabbedPane which shows only tabs without tab content. To add a new tab call something like
-     * ```
-     * JBTabbedPane.addTab(tab.name, JPanel())
-     * ```
-     */
-    @ApiStatus.Experimental
-    fun tabbedPaneHeader(items: Collection<String> = emptyList()): Cell<JBTabbedPane>
-
     fun slider(min: Int, max: Int, minorTickSpacing: Int, majorTickSpacing: Int): Cell<JSlider>
 
     /**
@@ -183,11 +124,6 @@ interface Row {
      * because they set correct gap between label and component and set [JLabel.labelFor] property
      */
     fun label(@NlsContexts.Label text: String): Cell<JLabel>
-
-    @Deprecated("Use text(...) instead")
-    @ApiStatus.ScheduledForRemoval
-    fun labelHtml(@NlsContexts.Label text: String,
-                  action: HyperlinkEventAction = HyperlinkEventAction.HTML_HYPERLINK_INSTANCE): Cell<JEditorPane>
 
     /**
      * Adds text. [text] can contain HTML tags except &lt;html&gt;, which is added automatically.
@@ -201,32 +137,6 @@ interface Row {
      */
     fun text(@NlsContexts.Label text: String, maxLineLength: Int = MAX_LINE_LENGTH_WORD_WRAP,
              action: HyperlinkEventAction = HyperlinkEventAction.HTML_HYPERLINK_INSTANCE): Cell<JEditorPane>
-
-    @Deprecated("Use overloaded comment(...) instead", level = DeprecationLevel.HIDDEN)
-    @ApiStatus.ScheduledForRemoval
-    fun comment(@NlsContexts.DetailedDescription text: String, maxLineLength: Int = MAX_LINE_LENGTH_WORD_WRAP): Cell<JLabel>
-
-    /**
-     * Adds comment with appropriate color and font size (macOS and Linux use smaller font).
-     * [comment] can contain HTML tags except &lt;html&gt;, which is added automatically.
-     * \n does not work as new line in html, use &lt;br&gt; instead.
-     * Links with href to http/https are automatically marked with additional arrow icon.
-     *
-     * @see DEFAULT_COMMENT_WIDTH
-     * @see MAX_LINE_LENGTH_WORD_WRAP
-     * @see MAX_LINE_LENGTH_NO_WRAP
-     */
-    fun comment(@NlsContexts.DetailedDescription comment: String, maxLineLength: Int = MAX_LINE_LENGTH_WORD_WRAP,
-                action: HyperlinkEventAction = HyperlinkEventAction.HTML_HYPERLINK_INSTANCE): Cell<JEditorPane>
-
-    @Deprecated("Use comment(...) instead")
-    @ApiStatus.ScheduledForRemoval
-    fun commentNoWrap(@NlsContexts.DetailedDescription text: String): Cell<JLabel>
-
-    @Deprecated("Use comment(...) instead")
-    @ApiStatus.ScheduledForRemoval
-    fun commentHtml(@NlsContexts.DetailedDescription text: String,
-                    action: HyperlinkEventAction = HyperlinkEventAction.HTML_HYPERLINK_INSTANCE): Cell<JEditorPane>
 
     /**
      * Creates focusable link with text inside. Should not be used with html in [text]
@@ -254,14 +164,6 @@ interface Row {
      * Creates text field with [columns] set to [COLUMNS_SHORT]
      */
     fun textField(): Cell<JBTextField>
-
-    /**
-     * Creates text field with browse button and [columns] set to [COLUMNS_SHORT]
-     */
-    fun textFieldWithBrowseButton(@NlsContexts.DialogTitle browseDialogTitle: String? = null,
-                                  project: Project? = null,
-                                  fileChooserDescriptor: FileChooserDescriptor = FileChooserDescriptorFactory.createSingleFileNoJarsDescriptor(),
-                                  fileChosen: ((chosenFile: VirtualFile) -> String)? = null): Cell<TextFieldWithBrowseButton>
 
     /**
      * Creates expandable text field with [columns] set to [COLUMNS_SHORT]
@@ -299,10 +201,6 @@ interface Row {
     fun <T> comboBox(model: ComboBoxModel<T>, renderer: ListCellRenderer<in T?>? = null): Cell<ComboBox<T>>
 
     fun <T> comboBox(items: Collection<T>, renderer: ListCellRenderer<in T?>? = null): Cell<ComboBox<T>>
-
-    @Deprecated("Use overloaded comboBox(...) with Collection")
-    @ApiStatus.ScheduledForRemoval
-    fun <T> comboBox(items: Array<T>, renderer: ListCellRenderer<T?>? = null): Cell<ComboBox<T>>
 
     /**
      * Overrides all gaps around row by [customRowGaps]. Should be used for very specific cases

@@ -7,8 +7,6 @@ import javax.swing.JComponent
 
 class DialogPanelConfig {
 
-    val context = Context()
-
     var preferredFocusedComponent: JComponent? = null
 
     val applyCallbacks = linkedMapOf<JComponent?, MutableList<() -> Unit>>()

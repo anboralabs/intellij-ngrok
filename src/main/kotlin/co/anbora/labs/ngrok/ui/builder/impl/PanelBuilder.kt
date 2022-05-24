@@ -213,15 +213,6 @@ class PanelBuilder(
                 val subBuilder = PanelBuilder(cell.rows, dialogPanelConfig, cell.spacingConfiguration, panel, subGrid)
                 subBuilder.build()
             }
-            is PlaceholderBaseImpl -> {
-                val gaps = cell.customGaps ?: Gaps(left = leftGap, right = rightGap)
-                if (cell.resizableColumn) {
-                    builder.addResizableColumn()
-                }
-                val constraints = builder.constraints(width = width, horizontalAlign = cell.horizontalAlign, verticalAlign = cell.verticalAlign,
-                    gaps = gaps)
-                cell.init(panel, constraints, spacingConfiguration)
-            }
             null -> {
                 builder.skip(1)
             }
