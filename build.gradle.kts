@@ -39,7 +39,7 @@ configure<JavaPluginExtension> {
 tasks {
 
     patchPluginXml {
-        sinceBuild.set("211")
+        sinceBuild.set("221")
         changeNotes.set(file("src/main/html/change-notes.html").inputStream().readBytes().toString(Charsets.UTF_8))
         pluginDescription.set(file("src/main/html/description.html").inputStream().readBytes().toString(Charsets.UTF_8))
     }
