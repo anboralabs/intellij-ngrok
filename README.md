@@ -14,8 +14,14 @@ This plugin allow us to integrate ngrok in the services tab.
 ## How to use it?
 
 - Add plugin to Intellij IDE
-- Add ngrok configuration
-- Add ngrok server
+- Edit Configurations...
+  - Add New Configuration -> Ngrok
+  - Select or create Server
+  - Click OK
+- Open Services Tool Window
+  - Find your Ngrok Run configuration under Services > Ngrok > Not Started > Ngrok Run, and run it
+  - Find your Ngrok Application under Services > Ngrok > Ngrok Application, and click "Add Tunnel"
+    - Enter tunnel information and click OK
 
 ### Add plugin to Intellij IDE
 
