@@ -5,11 +5,11 @@ val publishingToken: String? = System.getenv("PUBLISH_TOKEN")
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.7.10"
-    id("org.jetbrains.intellij") version "1.9.0"
+    id("org.jetbrains.intellij") version "1.10.0"
 }
 
 group = "co.anbora.labs"
-version = "1.2.3"
+version = "1.2.4"
 
 repositories {
     mavenCentral()
