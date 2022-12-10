@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "co.anbora.labs"
-version = "1.2.4"
+version = "1.3.0"
 
 repositories {
     mavenCentral()
@@ -18,7 +18,7 @@ repositories {
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.21")
-    implementation("com.github.alexdlaird:java-ngrok:1.5.6")
+    implementation("com.github.alexdlaird:java-ngrok:1.6.1")
 }
 
 apply {

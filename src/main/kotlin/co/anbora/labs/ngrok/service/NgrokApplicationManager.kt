@@ -1,5 +1,6 @@
 package co.anbora.labs.ngrok.service
 
+import co.anbora.labs.ngrok.remote.server.NgrokHostConfiguration
 import co.anbora.labs.ngrok.runtimes.NgrokApplicationRuntime
 import co.anbora.labs.ngrok.runtimes.NgrokBaseRuntime
 import com.intellij.openapi.Disposable
@@ -10,10 +11,10 @@ class NgrokApplicationManager: Disposable {
 
     private val applications: ConcurrentHashMap<String, NgrokApplicationRuntime> = ConcurrentHashMap()
 
-    fun runApplication(token: String): NgrokApplicationRuntime {
-        val application = applications.getOrPut(token) {
+    fun runApplication(configuration: NgrokHostConfiguration): NgrokApplicationRuntime {
+        val application = applications.getOrPut(configuration.apiKey) {
             val newApplicationRuntime = NgrokApplicationRuntime("Ngrok Application")
-            newApplicationRuntime.run(token)
+            newApplicationRuntime.run(configuration)
             newApplicationRuntime
         }
         return application

@@ -4,6 +4,7 @@ import co.anbora.labs.ngrok.model.NgrokService
 import co.anbora.labs.ngrok.model.NgrokTunnelService
 import co.anbora.labs.ngrok.model.start
 import co.anbora.labs.ngrok.model.toModel
+import co.anbora.labs.ngrok.remote.server.NgrokHostConfiguration
 import com.github.alexdlaird.exception.NgrokException
 import com.github.alexdlaird.ngrok.NgrokClient
 import com.github.alexdlaird.ngrok.conf.JavaNgrokConfig
@@ -21,10 +22,15 @@ class NgrokApplicationRuntime(applicationName: String) : NgrokBaseRuntime(applic
     private var ngrokClient: NgrokClient? = null
     private val configBuilder = JavaNgrokConfig.Builder()
 
-    fun run(apiToken: String) {
+    fun run(configuration: NgrokHostConfiguration) {
+
+        val region = configuration.region
+        if (region != null) {
+            configBuilder.withRegion(region)
+        }
 
         ngrokClient = NgrokClient.Builder()
-            .withJavaNgrokConfig(configBuilder.withAuthToken(apiToken).build())
+            .withJavaNgrokConfig(configBuilder.withAuthToken(configuration.apiKey).build())
             .build()
             .start()
     }
