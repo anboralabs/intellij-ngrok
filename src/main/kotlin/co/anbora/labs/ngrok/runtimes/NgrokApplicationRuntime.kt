@@ -1,15 +1,11 @@
 package co.anbora.labs.ngrok.runtimes
 
+import co.anbora.labs.ngrok.handler.NgrokHandler
 import co.anbora.labs.ngrok.model.NgrokService
 import co.anbora.labs.ngrok.model.NgrokTunnelService
-import co.anbora.labs.ngrok.model.start
 import co.anbora.labs.ngrok.model.toModel
 import co.anbora.labs.ngrok.remote.server.NgrokHostConfiguration
-import com.github.alexdlaird.exception.NgrokException
-import com.github.alexdlaird.ngrok.NgrokClient
-import com.github.alexdlaird.ngrok.conf.JavaNgrokConfig
 import com.github.alexdlaird.ngrok.protocol.CreateTunnel
-import com.github.alexdlaird.ngrok.protocol.Proto
 import com.intellij.openapi.diagnostic.logger
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -19,48 +15,19 @@ class NgrokApplicationRuntime(applicationName: String) : NgrokBaseRuntime(applic
     private val log = logger<NgrokApplicationRuntime>()
     private val serviceRuntimes: MutableMap<String, NgrokServiceRuntime<NgrokService>> = mutableMapOf()
 
-    private var ngrokClient: NgrokClient? = null
-    private val configBuilder = JavaNgrokConfig.Builder()
+    private val ngrokHandler = NgrokHandler()
 
-    fun run(configuration: NgrokHostConfiguration) {
+    fun run(configuration: NgrokHostConfiguration) = ngrokHandler.start(configuration)
 
-        val region = configuration.region
-        if (region != null) {
-            configBuilder.withRegion(region)
-        }
+    fun addTunnel(tunnel: CreateTunnel) = ngrokHandler.addTunnel(tunnel)
 
-        ngrokClient = NgrokClient.Builder()
-            .withJavaNgrokConfig(configBuilder.withAuthToken(configuration.apiKey).build())
-            .build()
-            .start()
-    }
+    fun disconnectTunnel(publicUrl: String) = ngrokHandler.disconnect(publicUrl)
 
-    fun addTunnel(proto: Proto, port: Int) {
-        ngrokClient?.connect(
-            CreateTunnel.Builder()
-                .withProto(proto)
-                .withAddr(port)
-                .build()
-        )
-    }
+    fun properties(): MutableMap<String, String?> = ngrokHandler.properties()
 
-    fun disconnectTunnel(publicUrl: String) {
-        ngrokClient?.disconnect(publicUrl)
-    }
+    fun shutdown() = ngrokHandler.kill()
 
-    fun properties(): MutableMap<String, String?> {
-        return mutableMapOf(
-            "Version" to ngrokClient?.version?.ngrokVersion,
-            "Path" to ngrokClient?.javaNgrokConfig?.ngrokPath?.toString(),
-            "Token" to ngrokClient?.javaNgrokConfig?.authToken
-        )
-    }
-
-    fun shutdown() {
-        ngrokClient?.kill()
-    }
-
-    fun isAlive(): Boolean = ngrokClient?.ngrokProcess?.isRunning ?: false
+    fun isAlive(): Boolean = ngrokHandler.isAlive()
 
     fun waitForReadiness() = runBlocking {
         try {
@@ -117,11 +84,6 @@ class NgrokApplicationRuntime(applicationName: String) : NgrokBaseRuntime(applic
         }
 
     private fun getTunnels(): List<NgrokService> = runBlocking {
-        try {
-            val tunnelsDto = ngrokClient?.tunnels ?: emptyList()
-            return@runBlocking tunnelsDto.mapNotNull { it.toModel() }
-        } catch (e: NgrokException) {
-            return@runBlocking emptyList<NgrokService>()
-        }
+        ngrokHandler.tunnels().map { it.toModel() }
     }
 }

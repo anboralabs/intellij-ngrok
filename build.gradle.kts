@@ -5,7 +5,7 @@ val publishingToken: String? = System.getenv("PUBLISH_TOKEN")
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.7.10"
-    id("org.jetbrains.intellij") version "1.10.0"
+    id("org.jetbrains.intellij") version "1.10.1"
 }
 
 group = "co.anbora.labs"
@@ -19,6 +19,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.21")
     implementation("com.github.alexdlaird:java-ngrok:1.6.1")
+    implementation("com.nfeld.jsonpathkt:jsonpathkt:2.0.1")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.14.0")
 }
 
 apply {

@@ -17,8 +17,12 @@ class CreateTunnelDialog: DialogWrapper(true) {
     private lateinit var protocolField: Cell<ComboBox<Proto>>
     private lateinit var portField: Cell<JBTextField>
 
+    private lateinit var hostField: Cell<JBTextField>
+    private lateinit var subdomainField: Cell<JBTextField>
+
     private val MESSAGE = "The port number should be between 0 and 65535"
 
+    private val DEFAULT_HOST = "http://localhost"
     private val DEFAULT_PORT = 8080
 
     init {
@@ -38,12 +42,30 @@ class CreateTunnelDialog: DialogWrapper(true) {
                     .validationOnInput(validatePort())
                     .columns(COLUMNS_MEDIUM)
             }
+            collapsibleGroup("Advanced Options", false) {
+                buttonsGroup {
+                    row("Host") {
+                        val textField = JBTextField()
+                        textField.toolTipText = DEFAULT_HOST
+                        hostField = cell(textField)
+                            .columns(COLUMNS_MEDIUM)
+                    }
+                    row("Subdomain") {
+                        subdomainField = textField()
+                            .columns(COLUMNS_MEDIUM)
+                    }
+                }
+            }.expanded = false
         }
     }
 
     fun protocol(): Proto = protocolField.component.item
 
     fun port(): Int = portField.component.text.toInt()
+
+    fun host(): String = hostField.component.text
+
+    fun subdomain(): String = subdomainField.component.text
 
     private fun validatePort(): ValidationInfoBuilder.(JBTextField) -> ValidationInfo? = {
             val pt: String = it.text
