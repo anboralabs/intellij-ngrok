@@ -13,12 +13,14 @@ class NgrokHostConfigurable(
 
     override fun reset() {
         component.setApiToken(myConfiguration.apiKey)
+        component.setRegion(myConfiguration.region)
     }
 
-    override fun isModified(): Boolean = component.getApiToken() != myConfiguration.apiKey
+    override fun isModified(): Boolean = component.getApiToken() != myConfiguration.apiKey || component.getRegion() != myConfiguration.region
 
     override fun apply() {
         myConfiguration.apiKey = component.getApiToken()
+        myConfiguration.region = component.getRegion()
     }
 
     override fun canCheckConnection(): Boolean = false

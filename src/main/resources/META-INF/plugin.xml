@@ -13,6 +13,10 @@
         <remoteServer.type implementation="co.anbora.labs.ngrok.remote.server.NgrokHostType"/>
         <serviceViewContributor implementation="co.anbora.labs.ngrok.remote.server.NgrokServiceViewContributor"/>
         <remoteServer.deploymentSource.type implementation="co.anbora.labs.ngrok.remote.server.deployment.NgrokSingletonDeploymentSourceType"/>
+        <notificationGroup id="ngrok.notification"
+                           displayType="STICKY_BALLOON"
+                           bundle="ngrok.messages"
+                           key="ngrok.notification.group.name"/>
     </extensions>
 
     <actions>
