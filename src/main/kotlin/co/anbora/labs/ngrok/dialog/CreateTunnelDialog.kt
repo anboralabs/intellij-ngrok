@@ -6,9 +6,12 @@ import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.ui.CollectionComboBoxModel
+import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.JBTextField
 import com.intellij.ui.dsl.builder.*
 import com.intellij.ui.layout.ValidationInfoBuilder
+import com.intellij.ui.layout.not
+import com.intellij.ui.layout.selected
 import javax.swing.ComboBoxModel
 import javax.swing.JComponent
 
@@ -19,6 +22,9 @@ class CreateTunnelDialog: DialogWrapper(true) {
 
     private lateinit var hostField: Cell<JBTextField>
     private lateinit var subdomainField: Cell<JBTextField>
+
+    private val hostCheckBox: JBCheckBox = JBCheckBox("Host:")
+    private val subdomainCheckBox: JBCheckBox = JBCheckBox("Subdomain:")
 
     private val MESSAGE = "The port number should be between 0 and 65535"
 
@@ -43,18 +49,24 @@ class CreateTunnelDialog: DialogWrapper(true) {
                     .columns(COLUMNS_MEDIUM)
             }
             collapsibleGroup("Advanced Options", false) {
-                buttonsGroup {
-                    row("Host") {
-                        val textField = JBTextField()
-                        textField.toolTipText = DEFAULT_HOST
-                        hostField = cell(textField)
-                            .columns(COLUMNS_MEDIUM)
-                    }
-                    row("Subdomain") {
-                        subdomainField = textField()
-                            .columns(COLUMNS_MEDIUM)
-                    }
-                }
+                twoColumnsRow({
+                    cell(hostCheckBox)
+                        .enabledIf(subdomainCheckBox.selected.not())
+                }, {
+                    val textField = JBTextField()
+                    textField.toolTipText = DEFAULT_HOST
+                    hostField = cell(textField)
+                        .columns(COLUMNS_MEDIUM)
+                        .enabledIf(hostCheckBox.selected)
+                })
+                twoColumnsRow({
+                    cell(subdomainCheckBox)
+                        .enabledIf(hostCheckBox.selected.not())
+                }, {
+                    subdomainField = textField()
+                        .columns(COLUMNS_MEDIUM)
+                        .enabledIf(subdomainCheckBox.selected)
+                })
             }.expanded = false
         }
     }
@@ -63,9 +75,9 @@ class CreateTunnelDialog: DialogWrapper(true) {
 
     fun port(): Int = portField.component.text.toInt()
 
-    fun host(): String = hostField.component.text
+    fun host(): String? = if (hostCheckBox.isSelected) hostField.component.text else null
 
-    fun subdomain(): String = subdomainField.component.text
+    fun subdomain(): String? = if (subdomainCheckBox.isSelected) subdomainField.component.text else null
 
     private fun validatePort(): ValidationInfoBuilder.(JBTextField) -> ValidationInfo? = {
             val pt: String = it.text

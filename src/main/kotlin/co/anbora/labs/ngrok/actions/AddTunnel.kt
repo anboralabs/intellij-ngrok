@@ -18,11 +18,11 @@ class AddTunnel: DumbAwareAction() {
             val host = dialog.host()
             val subdomain = dialog.subdomain()
 
-            if (host.isNotBlank()) {
+            if (!host.isNullOrBlank()) {
                 builder.withHostname(host)
             }
 
-            if (subdomain.isNotBlank()) {
+            if (!subdomain.isNullOrBlank()) {
                 builder.withSubdomain(subdomain)
             }
 
