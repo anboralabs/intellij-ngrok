@@ -31,6 +31,8 @@ apply {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version.set("LATEST-EAP-SNAPSHOT")
+    type.set("IC")
+
     plugins.set(listOf())
 }
 
