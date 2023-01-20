@@ -30,7 +30,7 @@ apply {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set("LATEST-EAP-SNAPSHOT")
+    version.set("2022.3.1")
     type.set("IC")
 
     plugins.set(listOf())
