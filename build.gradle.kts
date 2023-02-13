@@ -5,11 +5,11 @@ val publishingToken: String? = System.getenv("PUBLISH_TOKEN")
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.7.10"
-    id("org.jetbrains.intellij") version "1.12.0"
+    id("org.jetbrains.intellij") version "1.13.1-SNAPSHOT"
 }
 
 group = "co.anbora.labs"
-version = "1.3.1"
+version = "1.3.2"
 
 repositories {
     mavenCentral()
@@ -30,7 +30,7 @@ apply {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set("2022.3.1")
+    version.set("LATEST-EAP-SNAPSHOT")
     type.set("IC")
 
     plugins.set(listOf())

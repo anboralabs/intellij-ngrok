@@ -25,8 +25,8 @@ class NgrokDeploymentNode(
     private var nodeComponent: NgrokDeploymentNodeComponent? = null
 
     override fun getChildren(): MutableCollection<out AbstractTreeNode<*>> {
-        val result = ArrayList<AbstractTreeNode<Any>>()
-        collectDeploymentChildren(result as List<AbstractTreeNode<*>>)
+        val result = mutableListOf<AbstractTreeNode<*>>()
+        collectDeploymentChildren(result)
         return result
     }
 
