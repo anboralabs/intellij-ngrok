@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "co.anbora.labs"
-version = "1.3.9"
+version = "2023.1.1"
 
 repositories {
     mavenCentral()
@@ -21,6 +21,7 @@ dependencies {
     implementation("com.github.alexdlaird:java-ngrok:1.6.1")
     implementation("com.nfeld.jsonpathkt:jsonpathkt:2.0.1")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.14.0")
+    implementation("com.jayway.jsonpath:json-path:2.8.0")
 }
 
 apply {
