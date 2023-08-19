@@ -25,7 +25,6 @@ public class CheckLicense {
   private static final String KEY_PREFIX = "key:";
   private static final String STAMP_PREFIX = "stamp:";
   private static final String EVAL_PREFIX = "eval:";
-
   /**
    * Public root certificates needed to verify JetBrains-signed licenses
    */
@@ -132,9 +131,9 @@ public class CheckLicense {
   public static void requestLicense(final String message) {
     // ensure the dialog is appeared from UI thread and in a non-modal context
     ApplicationManager.getApplication().invokeLater(
-        ()
-            -> showRegisterDialog(PRODUCT_CODE, message),
-        ModalityState.nonModal());
+        () -> showRegisterDialog(PRODUCT_CODE, message),
+        ModalityState.nonModal()
+    );
   }
 
   private static void showRegisterDialog(final String productCode,

@@ -2,6 +2,7 @@ package co.anbora.labs.ngrok.dialog
 
 import co.anbora.labs.ngrok.license.CheckLicense
 import com.github.alexdlaird.ngrok.protocol.Proto
+import com.intellij.ide.BrowserUtil
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo
@@ -13,12 +14,11 @@ import com.intellij.ui.dsl.builder.*
 import com.intellij.ui.layout.ValidationInfoBuilder
 import com.intellij.ui.layout.not
 import com.intellij.ui.layout.selected
-import javax.swing.Action
 import javax.swing.ComboBoxModel
 import javax.swing.JButton
 import javax.swing.JComponent
 
-class CreateTunnelDialog: DialogWrapper(true) {
+class CreateTunnelDialog: DialogWrapper(false) {
 
     private lateinit var protocolField: Cell<ComboBox<Proto>>
     private lateinit var portField: Cell<JBTextField>
@@ -86,7 +86,7 @@ class CreateTunnelDialog: DialogWrapper(true) {
     }
 
     override fun doHelpAction() {
-        CheckLicense.requestLicense("Support my work buying the license 1 USD")
+        BrowserUtil.browse("https://plugins.jetbrains.com/plugin/19205-ngrok")
     }
 
     override fun doValidate(): ValidationInfo? {
