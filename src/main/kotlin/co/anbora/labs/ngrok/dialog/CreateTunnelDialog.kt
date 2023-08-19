@@ -1,5 +1,6 @@
 package co.anbora.labs.ngrok.dialog
 
+import co.anbora.labs.ngrok.license.CheckLicense
 import com.github.alexdlaird.ngrok.protocol.Proto
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogWrapper
@@ -12,7 +13,9 @@ import com.intellij.ui.dsl.builder.*
 import com.intellij.ui.layout.ValidationInfoBuilder
 import com.intellij.ui.layout.not
 import com.intellij.ui.layout.selected
+import javax.swing.Action
 import javax.swing.ComboBoxModel
+import javax.swing.JButton
 import javax.swing.JComponent
 
 class CreateTunnelDialog: DialogWrapper(true) {
@@ -31,6 +34,8 @@ class CreateTunnelDialog: DialogWrapper(true) {
     private val DEFAULT_HOST = "http://localhost"
     private val DEFAULT_PORT = 8080
 
+    val licensed = CheckLicense.isLicensed() ?: false
+
     init {
         title = "Create Tunnel"
         init()
@@ -48,7 +53,7 @@ class CreateTunnelDialog: DialogWrapper(true) {
                     .validationOnInput(validatePort())
                     .columns(COLUMNS_MEDIUM)
             }
-            collapsibleGroup("Advanced Options", false) {
+            collapsibleGroup("Advanced Paid Options", false) {
                 twoColumnsRow({
                     cell(hostCheckBox)
                         .enabledIf(subdomainCheckBox.selected.not())
@@ -69,6 +74,34 @@ class CreateTunnelDialog: DialogWrapper(true) {
                 })
             }.expanded = false
         }
+    }
+
+    override fun getHelpId(): String? {
+        if (licensed) return null
+        return "co.anbora.labs.ngrok.help"
+    }
+
+    override fun setHelpTooltip(helpButton: JButton) {
+        helpButton.toolTipText = "Buy license"
+    }
+
+    override fun doHelpAction() {
+        CheckLicense.requestLicense("Support my work buying the license 1 USD")
+    }
+
+    override fun doValidate(): ValidationInfo? {
+        if (licensed) {
+            return null
+        }
+        if (hostCheckBox.isSelected) {
+            return ValidationInfo("Paid options, support my work buying the license 1 USD")
+                .forComponent(hostCheckBox)
+        }
+        if (subdomainCheckBox.isSelected) {
+            return ValidationInfo("Paid options, support my work buying the license 1 USD")
+                .forComponent(subdomainCheckBox)
+        }
+        return null
     }
 
     fun protocol(): Proto = protocolField.component.item
