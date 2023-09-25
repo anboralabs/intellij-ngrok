@@ -3,7 +3,7 @@
     <name>Ngrok</name>
     <vendor email="anboralabs@gmail.com" url="https://labs.anbora.co">Anbora-labs</vendor>
 
-    <product-descriptor code="PNGROK" release-date="20230819" release-version="20231" optional="true"/>
+    <product-descriptor code="PNGROK" release-date="20230925" release-version="20232" optional="true"/>
 
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
          on how to target different products -->
