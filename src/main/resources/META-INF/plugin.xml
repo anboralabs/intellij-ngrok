@@ -19,7 +19,26 @@
                            displayType="STICKY_BALLOON"
                            bundle="ngrok.messages"
                            key="ngrok.notification.group.name"/>
+
+        <postStartupActivity implementation="co.anbora.labs.ngrok.startup.InitConfigFiles"/>
+        <projectConfigurable
+                groupId="tools"
+                displayName="Ngrok"
+                id="preference.NewNgrokHomeConfigurable"
+                instance="co.anbora.labs.ngrok.settings.NgrokProjectSettingsConfigurable" />
+        <applicationService serviceImplementation="co.anbora.labs.ngrok.toolchain.NgrokKnownToolchainsState"/>
+        <applicationService serviceImplementation="co.anbora.labs.ngrok.toolchain.NgrokToolchainService"/>
     </extensions>
+
+    <extensions defaultExtensionNs="co.anbora.labs.ngrok">
+        <toolchain implementation="co.anbora.labs.ngrok.toolchain.flavor.NgrokSysPathToolchainFlavor"/>
+        <toolchain implementation="co.anbora.labs.ngrok.toolchain.flavor.NgrokUnixWhichPathToolchain"/>
+    </extensions>
+
+    <extensionPoints>
+        <extensionPoint interface="co.anbora.labs.ngrok.toolchain.NgrokToolchainFlavor"
+                        dynamic="true" name="toolchain"/>
+    </extensionPoints>
 
     <actions>
         <group id="Ngrok.RemoteServers.Main">
