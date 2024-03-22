@@ -33,11 +33,16 @@
     <extensions defaultExtensionNs="co.anbora.labs.ngrok">
         <toolchain implementation="co.anbora.labs.ngrok.toolchain.flavor.NgrokSysPathToolchainFlavor"/>
         <toolchain implementation="co.anbora.labs.ngrok.toolchain.flavor.NgrokUnixWhichPathToolchain"/>
+        <toolchain implementation="co.anbora.labs.ngrok.toolchain.flavor.NgrokWinWhichPathToolchain"/>
+        <discovery implementation="co.anbora.labs.ngrok.discovery.flavor.NgrokUnixDiscovery"/>
+        <discovery implementation="co.anbora.labs.ngrok.discovery.flavor.NgrokWinDiscovery"/>
     </extensions>
 
     <extensionPoints>
         <extensionPoint interface="co.anbora.labs.ngrok.toolchain.NgrokToolchainFlavor"
                         dynamic="true" name="toolchain"/>
+        <extensionPoint interface="co.anbora.labs.ngrok.discovery.NgrokDiscoveryFlavor"
+                        dynamic="true" name="discovery"/>
     </extensionPoints>
 
     <actions>
