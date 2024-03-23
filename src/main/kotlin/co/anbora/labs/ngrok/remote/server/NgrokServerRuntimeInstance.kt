@@ -44,7 +44,7 @@ class NgrokServerRuntimeInstance(
         taskExecutor.submit({
             ngrokApplicationManager.refreshApplication(configuration.apiKey).forEach {
                 val deployment = callback.addDeployment(it.applicationName, it, it.status, it.statusText)
-                it.setDeploymentModel(deployment)
+                it.deploymentModel = deployment
             }
             callback.succeeded()
         }, callback)

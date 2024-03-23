@@ -1,15 +1,21 @@
 package co.anbora.labs.ngrok.handler
 
 import co.anbora.labs.ngrok.model.start
-import co.anbora.labs.ngrok.notifications.Notifier.notifyError
+import co.anbora.labs.ngrok.notifications.NgrokNotifications
 import co.anbora.labs.ngrok.remote.server.NgrokHostConfiguration
+import co.anbora.labs.ngrok.toolchain.NgrokToolchainService
 import com.github.alexdlaird.exception.JavaNgrokHTTPException
 import com.github.alexdlaird.exception.NgrokException
 import com.github.alexdlaird.ngrok.NgrokClient
 import com.github.alexdlaird.ngrok.conf.JavaNgrokConfig
+import com.github.alexdlaird.ngrok.installer.NgrokInstaller
+import com.github.alexdlaird.ngrok.process.NgrokProcess
 import com.github.alexdlaird.ngrok.protocol.CreateTunnel
 import com.github.alexdlaird.ngrok.protocol.Tunnel
+import com.intellij.notification.NotificationType
 import com.jayway.jsonpath.JsonPath
+import java.nio.file.Paths
+import kotlin.io.path.Path
 
 class NgrokHandler(
     private var ngrokClient: NgrokClient? = null,
@@ -23,8 +29,18 @@ class NgrokHandler(
         }
 
         executeWithNotification {
+            val ngrokConfig = configBuilder.withAuthToken(configuration.apiKey)
+                .withNgrokPath(Paths.get(NgrokToolchainService.toolchainSettings.toolchain().binPath()))
+                .build()
+
             ngrokClient = NgrokClient.Builder()
-                .withJavaNgrokConfig(configBuilder.withAuthToken(configuration.apiKey).build())
+                .withNgrokProcess(
+                    NgrokProcess(
+                        ngrokConfig,
+                        NgrokInstaller()
+                    )
+                )
+                .withJavaNgrokConfig(ngrokConfig)
                 .build()
                 .start()
         }
@@ -65,7 +81,12 @@ class NgrokHandler(
             process()
         } catch (ex: JavaNgrokHTTPException) {
             val message = processException(ex)
-            notifyError(content = message)
+            val notification = NgrokNotifications.createNotification(
+                "Ngrok Plugin",
+                message,
+                NotificationType.ERROR
+            )
+            NgrokNotifications.showNotification(notification, null)
         }
     }
 

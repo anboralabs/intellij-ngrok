@@ -3,7 +3,7 @@
     <name>Ngrok</name>
     <vendor email="anboralabs@gmail.com" url="https://labs.anbora.co">Anbora-labs</vendor>
 
-    <product-descriptor code="PNGROK" release-date="20240120" release-version="20241" optional="true"/>
+    <product-descriptor code="PNGROK" release-date="20240321" release-version="20243" optional="true"/>
 
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
          on how to target different products -->
@@ -19,7 +19,31 @@
                            displayType="STICKY_BALLOON"
                            bundle="ngrok.messages"
                            key="ngrok.notification.group.name"/>
+
+        <postStartupActivity implementation="co.anbora.labs.ngrok.startup.InitConfigFiles"/>
+        <projectConfigurable
+                groupId="tools"
+                displayName="Ngrok"
+                id="preference.NewNgrokHomeConfigurable"
+                instance="co.anbora.labs.ngrok.settings.NgrokProjectSettingsConfigurable" />
+        <applicationService serviceImplementation="co.anbora.labs.ngrok.toolchain.NgrokKnownToolchainsState"/>
+        <applicationService serviceImplementation="co.anbora.labs.ngrok.toolchain.NgrokToolchainService"/>
     </extensions>
+
+    <extensions defaultExtensionNs="co.anbora.labs.ngrok">
+        <toolchain implementation="co.anbora.labs.ngrok.toolchain.flavor.NgrokSysPathToolchainFlavor"/>
+        <toolchain implementation="co.anbora.labs.ngrok.toolchain.flavor.NgrokUnixWhichPathToolchain"/>
+        <toolchain implementation="co.anbora.labs.ngrok.toolchain.flavor.NgrokWinWhichPathToolchain"/>
+        <discovery implementation="co.anbora.labs.ngrok.discovery.flavor.NgrokUnixDiscovery"/>
+        <discovery implementation="co.anbora.labs.ngrok.discovery.flavor.NgrokWinDiscovery"/>
+    </extensions>
+
+    <extensionPoints>
+        <extensionPoint interface="co.anbora.labs.ngrok.toolchain.NgrokToolchainFlavor"
+                        dynamic="true" name="toolchain"/>
+        <extensionPoint interface="co.anbora.labs.ngrok.discovery.NgrokDiscoveryFlavor"
+                        dynamic="true" name="discovery"/>
+    </extensionPoints>
 
     <actions>
         <group id="Ngrok.RemoteServers.Main">
@@ -48,5 +72,18 @@
         <action id="Ngrok.Services.AddTyeHost" class="co.anbora.labs.ngrok.actions.AddNgrokHostAction">
             <add-to-group group-id="ServiceView.AddService"/>
         </action>
+
+        <action
+                id="co.anbora.labs.ngrok.actions.Setup"
+                class="co.anbora.labs.ngrok.actions.Setup"
+                text="Setup"
+        />
+        <action
+                id="co.anbora.labs.ngrok.actions.Install"
+                class="co.anbora.labs.ngrok.actions.Install"
+                text="Download"
+        />
+        <action id="co.anbora.labs.ngrok.actions.RestartIDEAction" class="co.anbora.labs.ngrok.actions.RestartIDEAction"
+                text="Restart"/>
     </actions>
 </idea-plugin>

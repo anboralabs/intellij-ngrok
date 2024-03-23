@@ -1,5 +1,6 @@
 package co.anbora.labs.ngrok.remote.server
 
+import co.anbora.labs.ngrok.toolchain.NgrokToolchainService
 import com.github.alexdlaird.ngrok.protocol.Region
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.ui.CollectionComboBoxModel
@@ -39,7 +40,7 @@ class NgrokHostComponent {
     fun getPanel(): JPanel = panel
 
     private fun ngrokHosts(): ComboBoxModel<String> {
-        return CollectionComboBoxModel(listOf("Embedded"))
+        return CollectionComboBoxModel(listOf(NgrokToolchainService.toolchainSettings.toolchain().binPath()))
     }
 
     private fun regions(): ComboBoxModel<Region> {
