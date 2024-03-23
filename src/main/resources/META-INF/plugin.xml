@@ -72,5 +72,16 @@
         <action id="Ngrok.Services.AddTyeHost" class="co.anbora.labs.ngrok.actions.AddNgrokHostAction">
             <add-to-group group-id="ServiceView.AddService"/>
         </action>
+
+        <action
+                id="co.anbora.labs.ngrok.actions.Setup"
+                class="co.anbora.labs.ngrok.actions.Setup"
+                text="Setup"
+        />
+        <action
+                id="co.anbora.labs.ngrok.actions.Install"
+                class="co.anbora.labs.ngrok.actions.Install"
+                text="Download"
+        />
     </actions>
 </idea-plugin>
