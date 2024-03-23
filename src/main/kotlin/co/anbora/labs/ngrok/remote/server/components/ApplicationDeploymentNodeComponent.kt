@@ -28,7 +28,7 @@ class ApplicationDeploymentNodeComponent(private val project: Project, private v
             add(tabbedPane)
         }
 
-        Disposer.register(project.service<ProjectDisposable>(), this)
+        Disposer.register(service<ProjectDisposable>(), this)
     }
 
     override fun update() {

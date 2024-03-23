@@ -36,7 +36,7 @@ class NgrokServiceViewContributor: RemoteServersServiceViewContributor(), Servic
 
         val nodeComponentProvider = componentProviders.getOrPut(project) {
             val provider = NgrokDeploymentNodeComponentProvider(project)
-            Disposer.register(project.service<ProjectDisposable>()) {
+            Disposer.register(service<ProjectDisposable>()) {
                 componentProviders.remove(project)
             }
             return@getOrPut provider
