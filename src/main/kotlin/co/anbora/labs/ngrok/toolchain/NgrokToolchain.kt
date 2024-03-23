@@ -11,6 +11,7 @@ interface NgrokToolchain {
     fun compiler(): VirtualFile?
     fun rootDir(): VirtualFile?
     fun homePath(): String
+    fun binPath(): String
     fun isValid(): Boolean
 
     companion object {
@@ -35,6 +36,7 @@ interface NgrokToolchain {
             override fun compiler(): VirtualFile? = null
             override fun rootDir(): VirtualFile? = null
             override fun homePath(): String = ""
+            override fun binPath(): String = ""
             override fun isValid(): Boolean = false
         }
     }

@@ -83,5 +83,7 @@
                 class="co.anbora.labs.ngrok.actions.Install"
                 text="Download"
         />
+        <action id="co.anbora.labs.ngrok.actions.RestartIDEAction" class="co.anbora.labs.ngrok.actions.RestartIDEAction"
+                text="Restart"/>
     </actions>
 </idea-plugin>

@@ -22,6 +22,8 @@ class NgrokLocalToolchain(
 
     override fun homePath(): String = homePath
 
+    override fun binPath(): String = executable?.toNioPath()?.toString() ?: ""
+
     override fun isValid(): Boolean {
         return isValidDir(rootDir) && isValidExecutable(executable)
     }

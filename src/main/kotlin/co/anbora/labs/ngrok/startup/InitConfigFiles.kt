@@ -15,10 +15,9 @@ class InitConfigFiles: ProjectActivity {
     private val logger = Logger.getLogger(InitConfigFiles::class.simpleName)
 
     override suspend fun execute(project: Project) {
-        val path = NgrokDiscoveryFlavor.getApplicableFlavors().firstOrNull()?.getPathCandidate()
-        if (path != null) {
+        NgrokDiscoveryFlavor.getApplicableFlavors().forEach {
             logger.info {
-                "toolchain path: $path"
+                "toolchain path: ${it.getPathCandidate()}"
             }
         }
 
