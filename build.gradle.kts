@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "co.anbora.labs"
-version = "2024.3.1"
+version = "2024.3.2"
 
 repositories {
     mavenCentral()
@@ -18,9 +18,9 @@ repositories {
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.22")
-    implementation("com.github.alexdlaird:java-ngrok:2.2.7")
+    implementation("com.github.alexdlaird:java-ngrok:2.3.0")
     implementation("com.nfeld.jsonpathkt:jsonpathkt:2.0.1")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.16.1")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
     implementation("com.jayway.jsonpath:json-path:2.8.0")
 }
 

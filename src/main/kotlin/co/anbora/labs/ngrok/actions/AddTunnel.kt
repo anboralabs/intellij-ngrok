@@ -17,6 +17,7 @@ class AddTunnel: DumbAwareAction() {
             val builder = CreateTunnel.Builder()
             val host = dialog.host()
             val subdomain = dialog.subdomain()
+            val hostHeader = dialog.hostHeader()
 
             if (!host.isNullOrBlank()) {
                 builder.withHostname(host)
@@ -24,6 +25,10 @@ class AddTunnel: DumbAwareAction() {
 
             if (!subdomain.isNullOrBlank()) {
                 builder.withSubdomain(subdomain)
+            }
+
+            if (!hostHeader.isNullOrBlank()) {
+                builder.withHostHeader(hostHeader)
             }
 
             runtime.addTunnel(
