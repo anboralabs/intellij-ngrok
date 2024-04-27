@@ -25,9 +25,11 @@ class CreateTunnelDialog: DialogWrapper(false) {
 
     private lateinit var hostField: Cell<JBTextField>
     private lateinit var subdomainField: Cell<JBTextField>
+    private lateinit var hostHeaderField: Cell<JBTextField>
 
     private val hostCheckBox: JBCheckBox = JBCheckBox("Host:")
     private val subdomainCheckBox: JBCheckBox = JBCheckBox("Subdomain:")
+    private val hostHeaderCheckBox: JBCheckBox = JBCheckBox("Host-header:")
 
     private val MESSAGE = "The port number should be between 0 and 65535"
 
@@ -72,6 +74,13 @@ class CreateTunnelDialog: DialogWrapper(false) {
                         .columns(COLUMNS_MEDIUM)
                         .enabledIf(subdomainCheckBox.selected)
                 })
+                twoColumnsRow({
+                    cell(hostHeaderCheckBox)
+                }, {
+                    hostHeaderField = textField()
+                        .columns(COLUMNS_MEDIUM)
+                        .enabledIf(hostHeaderCheckBox.selected)
+                })
             }.expanded = false
         }
     }
@@ -101,6 +110,10 @@ class CreateTunnelDialog: DialogWrapper(false) {
             return ValidationInfo("Paid options, support my work buying the license 1 USD")
                 .forComponent(subdomainCheckBox)
         }
+        if (hostHeaderCheckBox.isSelected) {
+            return ValidationInfo("Paid options, support my work buying the license 1 USD")
+                .forComponent(hostHeaderCheckBox)
+        }
         return null
     }
 
@@ -111,6 +124,8 @@ class CreateTunnelDialog: DialogWrapper(false) {
     fun host(): String? = if (hostCheckBox.isSelected) hostField.component.text else null
 
     fun subdomain(): String? = if (subdomainCheckBox.isSelected) subdomainField.component.text else null
+
+    fun hostHeader(): String? = if (hostHeaderCheckBox.isSelected) hostHeaderField.component.text else null
 
     private fun validatePort(): ValidationInfoBuilder.(JBTextField) -> ValidationInfo? = {
             val pt: String = it.text
