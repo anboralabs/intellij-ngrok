@@ -47,14 +47,13 @@
 
     <actions>
         <group id="Ngrok.RemoteServers.Main">
-            <reference ref="RemoteServers.ConnectServer"/>
-            <reference ref="RemoteServers.DisconnectServer"/>
-            <reference ref="RemoteServers.EditServerConfig"/>
             <action id="Ngrok.RemoteServers.AddTunnel"
                     class="co.anbora.labs.ngrok.actions.AddTunnel"
                     text="Add Tunnel"
                     description="Create ngrok tunnel"
-                    icon="AllIcons.General.Web"/>
+                    icon="AllIcons.General.Web">
+                <add-to-group group-id="ServiceViewTreeToolbar" anchor="last"/>
+            </action>
             <action id="Ngrok.RemoteServers.StopTunnel"
                     class="co.anbora.labs.ngrok.actions.StopTunnel"
                     text="Stop Tunnel"

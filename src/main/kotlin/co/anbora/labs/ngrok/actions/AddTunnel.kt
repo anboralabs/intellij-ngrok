@@ -1,12 +1,12 @@
 package co.anbora.labs.ngrok.actions
 
+import co.anbora.labs.ngrok.compatibility.ApplicationActionUtils
 import co.anbora.labs.ngrok.dialog.CreateTunnelDialog
 import co.anbora.labs.ngrok.runtimes.NgrokApplicationRuntime
 import com.github.alexdlaird.ngrok.protocol.CreateTunnel
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.DumbAwareAction
-import com.intellij.remoteServer.util.ApplicationActionUtils
 
 class AddTunnel: DumbAwareAction() {
     override fun actionPerformed(e: AnActionEvent) {
