@@ -69,7 +69,7 @@ object NgrokConfigurationUtil {
             val future = ApplicationManager.getApplication().executeOnPooledThread {
                 handler.waitFor()
             }
-            future.get(300, TimeUnit.MILLISECONDS)
+            future.get(2000, TimeUnit.MILLISECONDS)
         } catch (e: ExecutionException) {
             LOG.warn("Can't execute command for getting ngrok toolchain version", e)
         } catch (e: TimeoutException) {
