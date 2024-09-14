@@ -133,7 +133,7 @@ public class CheckLicense {
     );
   }*/
 
-  private static void showRegisterDialog(final String productCode,
+  /*private static void showRegisterDialog(final String productCode,
                                          final String message) {
     final com.intellij.openapi.actionSystem.ActionManager actionManager =
         com.intellij.openapi.actionSystem.ActionManager.getInstance();
@@ -147,7 +147,7 @@ public class CheckLicense {
       registerAction.actionPerformed(AnActionEvent.createFromDataContext(
           "", new Presentation(), asDataContext(productCode, message)));
     }
-  }
+  }*/
 
   // This creates a DataContext providing additional information for the license
   // UI The "Register*" actions show the registration dialog and expect to find
