@@ -1,9 +1,9 @@
 <idea-plugin>
     <id>co.anbora.labs.ngrok</id>
     <name>Ngrok</name>
-    <vendor email="anboralabs@gmail.com" url="https://labs.anbora.co">Anbora-labs</vendor>
+    <vendor email="support@anbora.co" url="https://labs.anbora.co">Anbora-labs</vendor>
 
-    <product-descriptor code="PNGROK" release-date="20240813" release-version="20244" optional="true"/>
+    <product-descriptor code="PNGROK" release-date="20250116" release-version="20251" optional="true"/>
 
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
          on how to target different products -->
