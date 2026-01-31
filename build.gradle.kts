@@ -47,7 +47,7 @@ dependencies {
     implementation("com.github.alexdlaird:java-ngrok:2.3.0")
     implementation("com.nfeld.jsonpathkt:jsonpathkt:2.0.1")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
-    implementation("com.jayway.jsonpath:json-path:2.8.0")
+    implementation("com.jayway.jsonpath:json-path:2.10.0")
 }
 
 // Configure IntelliJ Platform Gradle Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html
