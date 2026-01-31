@@ -42,7 +42,7 @@ dependencies {
         // testFramework(TestFrameworkType.Platform.JUnit4)
     }
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.9.0-RC")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.10.2")
     implementation("org.jetbrains.kotlin:kotlin-reflect:2.0.0")
     implementation("com.github.alexdlaird:java-ngrok:2.3.0")
     implementation("com.nfeld.jsonpathkt:jsonpathkt:2.0.1")
