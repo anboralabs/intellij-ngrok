@@ -6,7 +6,7 @@ fun environment(key: String) = providers.environmentVariable(key)
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "2.2.0"
-    id("org.jetbrains.intellij.platform") version "2.14.0"
+    id("org.jetbrains.intellij.platform") version "2.15.0"
 }
 
 group = properties("pluginGroup").get()
@@ -42,12 +42,10 @@ dependencies {
         // testFramework(TestFrameworkType.Platform.JUnit4)
     }
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.9.0-RC")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:2.0.0")
     implementation("com.github.alexdlaird:java-ngrok:2.3.0")
     implementation("com.nfeld.jsonpathkt:jsonpathkt:2.0.1")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
-    implementation("com.jayway.jsonpath:json-path:2.8.0")
+    implementation("com.jayway.jsonpath:json-path:2.10.0")
 }
 
 // Configure IntelliJ Platform Gradle Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html
