@@ -15,19 +15,21 @@ interface NgrokToolchain {
     fun isValid(): Boolean
 
     companion object {
-        fun fromPath(homePath: String): NgrokToolchain {
+        /**
+         * Pass [version] when it is already known to avoid running `ngrok --version` again.
+         */
+        fun fromPath(homePath: String, version: String? = null): NgrokToolchain {
             if (homePath == "") {
                 return NULL
             }
 
             val virtualFileManager = VirtualFileManager.getInstance()
             val rootDir = virtualFileManager.findFileByNioPath(Path.of(homePath)) ?: return NULL
-            return fromDirectory(rootDir)
+            return fromDirectory(rootDir, version)
         }
 
-        private fun fromDirectory(rootDir: VirtualFile): NgrokToolchain {
-            val version = NgrokConfigurationUtil.guessToolchainVersion(rootDir.path)
-            return NgrokLocalToolchain(version, rootDir)
+        private fun fromDirectory(rootDir: VirtualFile, version: String?): NgrokToolchain {
+            return NgrokLocalToolchain(version ?: NgrokConfigurationUtil.guessToolchainVersion(rootDir.path), rootDir)
         }
 
         val NULL = object : NgrokToolchain {
