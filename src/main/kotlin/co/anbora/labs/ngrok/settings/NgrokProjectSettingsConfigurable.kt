@@ -41,7 +41,7 @@ class NgrokProjectSettingsConfigurable(private val project: Project) : Configura
         validateSettings()
 
         val settings = toolchainSettings
-        settings.setToolchain(NgrokToolchain.fromPath(model.homeLocation))
+        settings.setToolchain(NgrokToolchain.fromPath(model.homeLocation, model.homeVersion))
     }
 
     private fun validateSettings() {
@@ -56,6 +56,7 @@ class NgrokProjectSettingsConfigurable(private val project: Project) : Configura
 
         with(model) {
             homeLocation = settings.toolchainLocation
+            homeVersion = null
         }
 
         settingsForm.reset()
