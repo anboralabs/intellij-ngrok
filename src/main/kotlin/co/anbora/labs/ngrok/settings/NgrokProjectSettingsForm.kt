@@ -12,6 +12,8 @@ class NgrokProjectSettingsForm(private val project: Project?, private val model:
 
     data class Model(
         var homeLocation: String,
+        // Version of the selected toolchain, null when unknown
+        var homeVersion: String? = null,
     )
 
     private val mainPanel: DialogPanel
@@ -40,6 +42,7 @@ class NgrokProjectSettingsForm(private val project: Project?, private val model:
 
     private fun onSelect(toolchainInfo: ToolchainInfo) {
         model.homeLocation = toolchainInfo.location
+        model.homeVersion = toolchainInfo.version
     }
 
     init {
