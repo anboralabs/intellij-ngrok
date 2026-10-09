@@ -62,7 +62,7 @@ class NgrokNewToolchainDialog(private val toolchainFilter: Condition<Path>, proj
             }
         }
 
-        pathToToolchainComboBox.addToolchainsAsync {
+        pathToToolchainComboBox.addToolchainsAsync(this.disposable) {
             NgrokToolchainFlavor.getApplicableFlavors().flatMap { it.suggestHomePaths() }.distinct().
                     filter { toolchainFilter.value(it) }
         }
