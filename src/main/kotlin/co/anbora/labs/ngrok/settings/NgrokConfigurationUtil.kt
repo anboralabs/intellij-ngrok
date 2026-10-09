@@ -9,6 +9,8 @@ import com.intellij.execution.process.ProcessEvent
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.diagnostic.logger
 import com.intellij.openapi.util.SystemInfo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.nio.charset.StandardCharsets
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
@@ -22,6 +24,13 @@ object NgrokConfigurationUtil {
     const val TOOLCHAIN_NOT_SETUP = "ngrok executable not found, toolchain not setup correctly?"
     const val UNDEFINED_VERSION = "N/A"
     val STANDARD_V_COMPILER = if (SystemInfo.isWindows) "ngrok.exe" else "ngrok"
+
+    /**
+     * Same as [guessToolchainVersion] but runs `ngrok --version` on the IO dispatcher, safe to call from the EDT.
+     */
+    suspend fun guessToolchainVersionAsync(path: String): String = withContext(Dispatchers.IO) {
+        guessToolchainVersion(path)
+    }
 
     fun guessToolchainVersion(path: String): String {
         if (path.isBlank()) {
